@@ -18,14 +18,14 @@ import fbConfig from "../config/FbConfig";
 
 
 
-
 function SignIn({auth}) {
 
   useEffect(() => {
     
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        return <Redirect to = '/Boards'/>
+        console.log(user);
+        setcurrentUser(user.uid);
       }
    });
       
@@ -35,6 +35,8 @@ function SignIn({auth}) {
   const classes = useStyles();
   const [UserInfos, setUserInfos] = useState({email:'',password:''});
   const [userStatus, setuserStatus] = useState('');
+  const [currentUser, setcurrentUser] = useState('');
+
 
   const handleOnChange = (e) =>{
     setUserInfos({
@@ -53,14 +55,31 @@ function SignIn({auth}) {
       // Handle error.
     });
     console.log(firebase.auth().currentUser.uid);
-    if(firebase.auth().currentUser.uid) {
-      setuserStatus(firebase.auth().currentUser.uid);
-    }
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        if(firebase.auth().currentUser.uid) {
+          setuserStatus(firebase.auth().currentUser.uid);
+        }
+      
+      }
+   });
+
+    
   
   }
 
  
   if(userStatus) return <Redirect to = '/Boards'/>
+  if(currentUser) return (
+    <Redirect to={{
+      pathname: '/Boards',
+      state: { id: currentUser }
+  }} />
+  )
+
+  
+ 
 
   return (
    <Container component="main" maxWidth="xs">

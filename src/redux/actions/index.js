@@ -1,7 +1,8 @@
-import firebase from '../../Config/FbConfig';
+import firebase from '../../components/config/FbConfig';
 
  export const getNotes = () => {
   return (dispatch) => {
+    
     firebase.database().ref('/notes').on('value', (snapshot) => {
       dispatch({
         type: 'NOTES_FETCH',
@@ -11,10 +12,9 @@ import firebase from '../../Config/FbConfig';
   };
 };
 
-export const getBoards = (temp) => {
+export const getBoards = (currentUserId) => {
+  
   return (dispatch) => {
-    var currentUserId = firebase.auth().currentUser.uid;
-    console.log('$$$$$$$$$$$$$'+temp);
     firebase.database().ref('/'+currentUserId+'/Boards').on('value', (snapshot) => {
       dispatch({
         type: 'BOARDS_FETCH',
