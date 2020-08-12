@@ -10,6 +10,7 @@ function createWindow() {
         height:600,
         show: false
     });
+    mainWindow.setMenuBarVisibility(false);
     const startURL = isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`;
  
     mainWindow.loadURL(startURL);
