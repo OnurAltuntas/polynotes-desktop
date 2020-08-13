@@ -12,7 +12,6 @@ export default function Navi() {
 
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          console.log(user.uid);
           setcurrentUser(user);
         }
       });

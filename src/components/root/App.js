@@ -21,7 +21,7 @@ function App() {
         <Route path="/Boards" exact component={Boards} />
         <Route path="/SignIn" exact component={SignIn} />
         <Route path="/SignUp" exact component={SignUp} />
-        <Route path="/Trello" exact component={SignUp} />
+        <Route path="/Trello" exact component={Trello} />
       </Switch>
     </div>
   );

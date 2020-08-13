@@ -6,7 +6,7 @@ import { deleteBoards } from "../redux/actions/index";
 import { editBoards } from "../redux/actions/index";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import { Redirect } from "react-router-dom";
 import _ from "lodash";
 import firebaseConfig from "../../src/components/config/FbConfig";
 import firebase from "firebase";
@@ -39,12 +39,21 @@ class Boards extends Component {
     modalVisible: false,
     itemKey: "",
     title: "",
+    boardKey:"",
 
     addState: {
       empty: "",
       modalVisible: false,
     },
   }; 
+
+  handleOnClickToBoard = (boardKey) =>{
+    console.log('#########'+boardKey);
+    this.setState({boardKey:boardKey});
+    
+  }
+
+  
   
  
 
@@ -65,6 +74,16 @@ class Boards extends Component {
   };
 
   render() {
+    if (this.state.boardKey!=="")
+    return (
+      <Redirect
+        to={{
+          pathname: "/Trello",
+          state: { id: this.state.boardKey },
+        }}
+      />
+    );
+
     console.log(this.props.location.state);
     if (this.props.boardsList) {
       var temp = Object.values(this.props.boardsList);
@@ -74,7 +93,8 @@ class Boards extends Component {
           <h1>Boards Page</h1>
           {temp.map((item) => (
             <div>
-              <h3 
+              <h3
+              onClick={() => this.handleOnClickToBoard(item.key)} 
               >{item.title}</h3>
 
               <Fab color="secondary" aria-label="edit">

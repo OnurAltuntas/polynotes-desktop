@@ -24,9 +24,8 @@ export const getBoards = (currentUserId) => {
   };
 };
 
-export const getTodos = (boardKey) => {
+export const getTodos = (boardKey,currentUserId) => {
   return (dispatch) => {
-    var currentUserId = firebase.auth().currentUser.uid;
   
     firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Todo').on('value', (snapshot) => {
       dispatch({
@@ -68,9 +67,8 @@ export const todosToInProgress = (empty,boardKey,key) => {
 
 
 
-export const getInProgress = (boardKey) => {
+export const getInProgress = (boardKey,currentUserId) => {
   return (dispatch) => {
-    var currentUserId = firebase.auth().currentUser.uid;
   
     firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Inprogress').on('value', (snapshot) => {
       dispatch({
