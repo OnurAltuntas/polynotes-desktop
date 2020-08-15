@@ -36,16 +36,14 @@ export const getTodos = (boardKey,currentUserId) => {
   };
 };
 
-export const addTodos = (empty,boardKey) => {
+export const addTodos = (empty,boardKey,currentUserId) => {
   return (dispatch) => {
     console.log(empty);
-    var currentUserId = firebase.auth().currentUser.uid;
     firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Todo').push({empty});
   };
 };
-export const deleteTodos = (boardKey,key) => {
+export const deleteTodos = (boardKey,key,currentUserId) => {
   return (dispatch) => {
-    var currentUserId = firebase.auth().currentUser.uid;
     firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Todo/'+key).remove();
   };
 };
@@ -109,9 +107,8 @@ export const InProgressToDone = (empty,boardKey,key) => {
 };
 
 
-export const getDones = (boardKey) => {
+export const getDones = (currentUserId,boardKey) => {
   return (dispatch) => {
-    var currentUserId = firebase.auth().currentUser.uid;
   
     firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Done').on('value', (snapshot) => {
       dispatch({

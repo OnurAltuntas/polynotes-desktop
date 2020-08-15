@@ -29,8 +29,12 @@ class Boards extends Component {
   componentDidMount() {
     var temp = "gelir inş";
     var user = firebase.auth().currentUser;
-    console.log(this.props.location.state.id);
-    this.props.getBoards(this.props.location.state.id);
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.props.getBoards(user.uid);
+      }
+    });
   }
 
   state = {
@@ -40,6 +44,7 @@ class Boards extends Component {
     itemKey: "",
     title: "",
     boardKey:"",
+    currentUserId:"",
 
     addState: {
       empty: "",
@@ -52,9 +57,6 @@ class Boards extends Component {
     this.setState({boardKey:boardKey});
     
   }
-
-  
-  
  
 
    handleOnChange = (e) => {
