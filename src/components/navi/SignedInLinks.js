@@ -22,7 +22,7 @@ import firebase from "firebase";
  if(userStatus===true) return <Redirect to="/SignIn" />;
     
     return (
-      <ul className="right">
+     
       <IconButton
         aria-label="account of current user"
         aria-controls="menu-appbar"
@@ -31,10 +31,10 @@ import firebase from "firebase";
         onClick={signOutHandler}
 
       >
-        <img src={logout} alt="login" height="30" width="30"></img>
+        <img title="logout" src={logout} alt="login" height="30" width="30"></img>
       </IconButton>
      
-    </ul>
+  
     )
  
 }

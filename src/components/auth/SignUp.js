@@ -76,7 +76,7 @@ function SingUp({ auth }) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign Up
+          Sign up
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -103,10 +103,6 @@ function SingUp({ auth }) {
             autoComplete="current-password"
             onChange={handleOnChange}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
             type="submit"
             fullWidth
@@ -114,9 +110,9 @@ function SingUp({ auth }) {
             color="primary"
             className={classes.submit}
             onClick={handleSubmit}
-            style={{ background: "#2E3B55" }}
+            style={{backgroundColor: '#FFB500'}}
           >
-            Sign In
+            Sign up
           </Button>
           <Grid container>
             <Grid item xs>
@@ -145,7 +141,8 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#FFB500',
+    
   },
   form: {
     width: "100%", // Fix IE 11 issue.

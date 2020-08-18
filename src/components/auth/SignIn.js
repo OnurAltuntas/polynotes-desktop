@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import firebase from "firebase";
 import fbConfig from "../config/FbConfig";
+import { red } from "@material-ui/core/colors";
 
 function SignIn({ auth }) {
   useEffect(() => {
@@ -43,9 +44,10 @@ function SignIn({ auth }) {
     firebase
       .auth()
       .signInWithEmailAndPassword(UserInfos.email, UserInfos.password)
-      .then(function (result) {})
+      .then(function (result) {
+      })
       .catch(function (error) {
-        // Handle error.
+        alert("error");
       });
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -69,14 +71,15 @@ function SignIn({ auth }) {
     );
 
   return (
-    <Container component="main" maxWidth="xs">
+    <div style={{backgroundColor:red}}>
+    <Container  component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Signin
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -103,18 +106,15 @@ function SignIn({ auth }) {
             autoComplete="current-password"
             onChange={handleOnChange}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+         
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
             onClick={handleSubmit}
-            style={{ background: "#2E3B55" }}
+            style={{backgroundColor: '#FFB500',
+          }}
           >
             Sign Up
           </Button>
@@ -131,9 +131,11 @@ function SignIn({ auth }) {
         </form>
       </div>
     </Container>
+    </div>
+
   );
 }
-
+//primary hex code #2E3B55
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -143,7 +145,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#FFB500',
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -151,6 +153,9 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: '#FFB500',
+  
+    
   },
 }));
 

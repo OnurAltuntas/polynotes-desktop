@@ -199,7 +199,7 @@ import Fab from "@material-ui/core/Fab";
             }
             else if (t.category==='todos'){
                 tasks.todos.push(
-                    <div key={t.name} 
+                    <div className="card2" key={t.name} 
                     onDragStart = {(e) => this.onDragStart(e, t.name)}
                   
                     draggable
@@ -246,9 +246,20 @@ import Fab from "@material-ui/core/Fab";
                 onDrop={(e)=>this.onDrop(e, "todos")}>
                
                  <span className="task-header">Todos
-                 <Fab color="primary" aria-label="add"  data-toggle="modal" data-target="#exampleModal">
-                 <AddIcon
-                 />
+                 <Fab
+                 style={{
+                   backgroundColor: "#FFB500",
+                   width: "45px",
+                   height: "45px",
+                   float:"right",
+                    marginRight:10,
+                 }}
+                 aria-label="add"
+                 data-toggle="modal"
+                 data-target="#exampleModal"
+               >
+                 {" "}
+                 <AddIcon />
                </Fab>
                  
                </span>

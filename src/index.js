@@ -12,6 +12,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { createStore, applyMiddleware, compose } from "redux";
 import reduxThunk from "redux-thunk";
 import rootReducer from "./redux/reducers/index";
+import 'alertifyjs/build/css/alertify.min.css'
 
 import * as serviceWorker from "./serviceWorker";
 
