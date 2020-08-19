@@ -40,6 +40,7 @@
 
 .container-drag {
   text-align: center;
+  display: inline-block;
 }
 
 .todos {
@@ -50,6 +51,8 @@
   top: 10;
   background-color: #EEEEEE;
   border-right: 1px dotted;
+
+  
 }
 
 .header {
@@ -64,6 +67,21 @@
   display: inline-block;
   background-color: skyblue;
   width:100%;
+
+    top: 0px;
+    position: relative;
+    max-width: 262px;
+    min-width: 262px;
+    min-height: 82px;
+    background-color: #f2f8f9;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 12px;
+    text-decoration: none;
+    z-index: 0;
+    overflow: hidden;
+    border: 1px solid #f2f8f9;
+    box-shadow: 0px 4px 4px rgba(38, 38, 38, 0.2);
 }
 
 .dones {
@@ -74,14 +92,29 @@
   top: 10;
   background-color: #9E9E9E;
   border-left: 1px dotted;
+
+  
 }
 
 .draggable {
-  width: 100px;
   height: 100px;
   background-color: yellow;
-  margin: 5px auto;
+ margin-top: 10px;
   line-height: 5em;
+
+  top: 0px;
+  position: relative;
+  max-width: 262px;
+  min-width: 262px;
+  min-height: 82px;
+  background-color: #f2f8f9;
+  border-radius: 10px;
+  padding: 20px 24px;
+  text-decoration: none;
+  z-index: 0;
+  overflow: hidden;
+  border: 1px solid #f2f8f9;
+  box-shadow: 0px 4px 4px rgba(38, 38, 38, 0.2);
 }
 
 .column {
@@ -97,9 +130,7 @@
   clear: both;
 }
 
-.body{
-  background-image: linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%);
-}
+
 
 .ajs-message.ajs-custom {
    color: #fff;  background-color: #FFB500;  border-color: #31708f; border-radius:6px; 
@@ -133,6 +164,7 @@
     background-color: #FFB500;
     border-radius: 0 4px 0 32px;
   }
+
   
   .go-arrow {
     margin-top: -4px;
@@ -207,7 +239,93 @@
     top: 0;
     left: 0;
   }
-  
-  
+
+  body { 
+    background: url("https://colorlib.com/shapely/wp-content/uploads/sites/12/2016/03/photo-1443527216320-7e744084f5a7-1.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: 'Baloo Tamma 2', cursive;
+  }
+
+  .leftCard{
+    height:500px;
+    widows: auto;
+  }
+
+  .board {
+    background:linear-gradient(135deg, #0079bf, #5067c5);
+   
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 10px 20px rgba(74,115,159,0.29);
+    cursor: default;
+    font-size: 1rem;
+    margin-bottom: 30px;
+    overflow: hidden;
+    padding: 18px;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.laptop-style{
+  border-radius: 2rem;
+    box-shadow: 0 10px 20px rgba(74,115,159,0.29);
+}
+
+small, .small {
+  font-size: 80%;
+  font-weight: 400;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.boardsPage-style{
+  text-align: center;
+  display: inline-block;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 15px;
+  color:white;
+
+  background-color: #FFB500;
+  width: fit-content;
+  border-bottom-left-radius: 65px;
+  border-bottom-right-radius: 65px;
+
+ 
+}
+
+.trelloPage-style{
+  text-align: center;
+  display: inline-block;
+ 
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 15px;
+  color:white;
+  background-color: #FFB500;
+ 
+  border-bottom-left-radius: 65px;
+  border-bottom-right-radius: 65px;
+
+ 
+}
+
+.profile{
+  text-align: center;
+  display: inline-block;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  margin-left: 60px;
+}
+
   
   

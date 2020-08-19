@@ -81,7 +81,7 @@ class Boards extends Component {
       return (
         <div>
           <div>
-            <h1>
+            <h2 className="boardsPage-style">
               Boards Page{" "}
               <Fab
                 style={{
@@ -96,7 +96,7 @@ class Boards extends Component {
                 {" "}
                 <AddIcon />
               </Fab>
-            </h1>
+            </h2>
           </div>
 
           {temp.map((item) => (
@@ -104,14 +104,20 @@ class Boards extends Component {
             
               <div
                 className="card2"
-                onClick={() => this.handleOnClickToBoard(item.key)}
-              >
-              <img src="https://images.unsplash.com/photo-1425342605259-25d80e320565?auto=format&amp;fit=crop&amp;w=750&amp;q=80&amp;ixid=dW5zcGxhc2guY29tOzs7Ozs%3D"/>
               
-              <div className="go-arrow">→</div>
-              <h3> {item.title}</h3>
-              <div className="go-corner"></div>
+              >
+              <img   src="https://images.unsplash.com/photo-1425342605259-25d80e320565?auto=format&amp;fit=crop&amp;w=750&amp;q=80&amp;ixid=dW5zcGxhc2guY29tOzs7Ozs%3D"/>
+              
+             
+           
+              <div onClick={() => this.handleOnClickToBoard(item.key)} className="go-corner">
+               <div   className="go-arrow">→</div> 
+               </div>
+
                
+               <div style={{opacity:0.9}}>
+               <h3 style={{color:"#fff"}}> {item.title}</h3>
+               </div>
 
                 <Fab
                 style={{
@@ -236,7 +242,7 @@ class Boards extends Component {
     //console.log(this.props.boardsList);
     return (
       <div>
-        <h1>Boards Page</h1>
+        <h2  className="boardsPage-style" >Boards Page</h2>
       </div>
     );
   }

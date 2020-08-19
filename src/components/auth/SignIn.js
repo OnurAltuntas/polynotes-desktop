@@ -16,6 +16,8 @@ import { Redirect } from "react-router-dom";
 import firebase from "firebase";
 import fbConfig from "../config/FbConfig";
 import { red } from "@material-ui/core/colors";
+import alertify from "alertifyjs";
+
 
 function SignIn({ auth }) {
   useEffect(() => {
@@ -47,7 +49,12 @@ function SignIn({ auth }) {
       .then(function (result) {
       })
       .catch(function (error) {
-        alert("error");
+        alertify.notify(
+          error,
+          "custom",
+          2,
+          function () {}
+        );
       });
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -82,7 +89,7 @@ function SignIn({ auth }) {
           Signin
         </Typography>
         <form className={classes.form} noValidate>
-          <TextField
+          <TextField style={{backgroundColor:"#fafafa",borderRadius:10}}
             variant="outlined"
             margin="normal"
             required
@@ -94,7 +101,7 @@ function SignIn({ auth }) {
             autoFocus
             onChange={handleOnChange}
           />
-          <TextField
+          <TextField style={{backgroundColor:"#fafafa",borderRadius:10}}
             variant="outlined"
             margin="normal"
             required
@@ -113,10 +120,10 @@ function SignIn({ auth }) {
             variant="contained"
             className={classes.submit}
             onClick={handleSubmit}
-            style={{backgroundColor: '#FFB500',
+            style={{backgroundColor: '#30698C',
           }}
           >
-            Sign Up
+            Sign In
           </Button>
           <Grid container>
             <Grid item xs>
@@ -142,18 +149,23 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    backgroundColor:"#FFC845",
+    padding: 20,
+    borderRadius: 10,
+    opacity: 0.8
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: '#FFB500',
+    backgroundColor: '#30698C',
   },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+    
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: '#FFB500',
+    backgroundColor: '#30698C',
   
     
   },

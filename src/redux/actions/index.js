@@ -156,7 +156,7 @@ export function addBoards(title){
     
     var boardKey = firebase.database().ref('/'+currentUserId+'/Boards').push({title}).getKey();
     console.log(JSON.stringify(boardKey));
-    var empty = '';
+    var empty = 'first';
     firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Todo').push({empty});
     firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Inprogress').push({empty});
     firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Done').push({empty});
