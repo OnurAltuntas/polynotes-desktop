@@ -23,6 +23,8 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import NoteIcon from '@material-ui/icons/Note';
 import user from "./../../assets/user.png";
+import "../root/App.css";
+
 
 
 
@@ -140,7 +142,7 @@ export default function Navi() {
       </IconButton>
 
       <Link style={{textDecoration:"none",color:"#fff"}} to="/" >
-      <h2>Polynotes</h2>
+      <h2 className="navi-text">Polynotes</h2>
       </Link>
 
       <Typography variant="h4" className={classes.title}>

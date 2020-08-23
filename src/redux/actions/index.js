@@ -36,6 +36,27 @@ export const getTodos = (boardKey,currentUserId) => {
   };
 };
 
+export const getTasks = (boardKey,currentUserId) => {
+  return (dispatch) => {
+  
+    firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey).on('value', (snapshot) => {
+      dispatch({
+        type: 'TASKS_FETCH',
+        payload:  snapshot.val(),
+      });
+    });
+  };
+};
+
+
+export const addTasks = (empty,boardKey,currentUserId) => {
+  return (dispatch) => {
+    console.log(empty);
+    firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Tasks').push(empty);
+  };
+};
+
+
 export const addTodos = (empty,boardKey,currentUserId) => {
   return (dispatch) => {
     console.log(empty);
@@ -62,6 +83,44 @@ export const todosToInProgress = (empty,boardKey,key) => {
     firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Todo/'+key).remove();
   };
 };
+
+export const InProgressToTodos = (empty,boardKey,key) => {
+  return (dispatch) => {
+    console.log(empty);
+    var currentUserId = firebase.auth().currentUser.uid;
+    firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Todo').push({empty});
+    firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Inprogress/'+key).remove();
+  };
+};
+
+
+export const DoneToInProgress = (empty,boardKey,key) => {
+  return (dispatch) => {
+    console.log(empty);
+    var currentUserId = firebase.auth().currentUser.uid;
+    firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Inprogress').push({empty});
+    firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Done/'+key).remove();
+  };
+};
+
+export const TodosToDone = (empty,boardKey,key) => {
+  return (dispatch) => {
+    console.log(empty);
+    var currentUserId = firebase.auth().currentUser.uid;
+    firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Done').push({empty});
+    firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Todos/'+key).remove();
+  };
+};
+
+export const DoneToTodos = (empty,boardKey,key) => {
+  return (dispatch) => {
+    console.log(empty);
+    var currentUserId = firebase.auth().currentUser.uid;
+    firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Todos').push({empty});
+    firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Done/'+key).remove();
+  };
+};
+
 
 
 
@@ -107,8 +166,9 @@ export const InProgressToDone = (empty,boardKey,key) => {
 };
 
 
-export const getDones = (currentUserId,boardKey) => {
+export const getDones = (boardKey) => {
   return (dispatch) => {
+    var currentUserId = firebase.auth().currentUser.uid;
   
     firebase.database().ref('/'+currentUserId+'/Boards/'+boardKey+'/Done').on('value', (snapshot) => {
       dispatch({

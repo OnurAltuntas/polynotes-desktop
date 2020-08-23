@@ -4,12 +4,22 @@ import { getInProgress } from "../redux/actions/index";
 import { getDones } from "../redux/actions/index";
 import { addTodos } from "../redux/actions/index";
 import { deleteTodos } from "../redux/actions/index";
+import { addTasks } from "../redux/actions/index";
+
+import { todosToInProgress } from "../redux/actions/index";
+import { InProgressToTodos } from "../redux/actions/index";
+import { InProgressToDone } from "../redux/actions/index";
+import { DoneToInProgress } from "../redux/actions/index";
+import { TodosToDone } from "../redux/actions/index";
+import { DoneToTodos } from "../redux/actions/index";
+
 import firebase from "firebase";
 import _ from "lodash";
 import { connect } from "react-redux";
 import "./root/App.css";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import ArrowRight from "@material-ui/icons/ArrowRight";
 import AddIcon from "@material-ui/icons/Add";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -26,20 +36,16 @@ import Container from "@material-ui/core/Container";
 import Fab from "@material-ui/core/Fab";
 import alertify from "alertifyjs";
 
-
 class Trello extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: [
-        { name: "Learn Angular", key: "1", category: "wip", bgcolor: "pink" },
-        { name: "React", key: "2", category: "wip", bgcolor: "pink" },
-        { name: "Vue", key: "3", category: "todos", bgcolor: "skyblue" },
-        { name: "Asp", key: "4", category: "dones", bgcolor: "#C7EE95" },
-      ],
+      tasks: [],
       todosStatus: true,
       wipStatus: true,
       donesStatus: true,
+
+      loadwithstart: true,
 
       empty: "",
       Visible: false,
@@ -64,14 +70,17 @@ class Trello extends Component {
         this.props.getDones(this.props.location.state.id, user.uid);
         this.setState({ currentUserId: user.uid });
         this.setState({ boardKey: this.props.location.state.id });
+        this.setState({loadwithstart:true})
       }
     });
   }
 
-  /*   componentWillUpdate(){
-        console.log(this.props.todosList);
-        this.loadWithStart();
-    } */
+  componentWillUpdate(){
+        console.log(this.props.donesList);
+      
+    }
+
+  //this.setState({tasks:[]})
 
   loadWithStart = () => {
     console.log("loadWithStart");
@@ -89,6 +98,7 @@ class Trello extends Component {
       }
     }
     if (this.state.wipStatus) {
+      console.log("girsin artık");
       if (this.props.InProgressList) {
         var counter = 0;
         var inprogressLength = Object.values(this.props.InProgressList).length;
@@ -105,6 +115,8 @@ class Trello extends Component {
     }
 
     if (this.state.donesStatus) {
+      console.log(this.props.donesList);
+    
       if (this.props.donesList) {
         var counter = 0;
         var donesLength = Object.values(this.props.donesList).length;
@@ -119,6 +131,9 @@ class Trello extends Component {
       }
       this.setState({ donesStatus: false });
     }
+    console.log(this.state.tasks);
+
+
   };
 
   handleOnChange = (e) => {
@@ -131,20 +146,41 @@ class Trello extends Component {
 
   onDragStart = (ev, id) => {
     ev.dataTransfer.setData("id", id);
-    this.loadWithStart();
+    console.log("başladı");
   };
 
   onDragOver = (ev) => {
     ev.preventDefault();
+    console.log("üstünde");
   };
 
   onDrop = (ev, cat) => {
+    console.log("bitti");
+
     let id = ev.dataTransfer.getData("id");
+    console.log(id);
+    console.log(cat);
+
 
     let tasks = this.state.tasks.filter((task) => {
-      if (task.name == id) {
+      if (task.key == id) {
+        console.log(task.category);
+
+        if(task.category==='todos' && cat==='wip'){
+          console.log("girmesi lazım");
+          this.props.todosToInProgress(task.name,this.state.boardKey,task.key);
         task.category = cat;
+
+        }
+        else if(task.category==='wip' && cat==='dones'){
+
+          this.props.InProgressToDone(task.name,this.state.boardKey,task.key);
+          task.category = cat;
+        }
+
+        console.log("taskKey:" + task.key);
       }
+
       return task;
     });
 
@@ -152,6 +188,12 @@ class Trello extends Component {
       ...this.state,
       tasks,
     });
+    
+    this.setState({ todosStatus: true });
+    this.setState({ wipStatus: true });
+    this.setState({ donesStatus: true });
+
+    //this.props.addTasks(this.state.tasks,this.state.boardKey,this.state.currentUserId);
   };
 
   handleDeleteTodos = (taskKey) => {
@@ -183,9 +225,9 @@ class Trello extends Component {
     this.state.tasks.forEach((t) => {
       if (t.category === "wip") {
         tasks.wip.push(
-          <div 
-            key={t.name}
-            onDragStart={(e) => this.onDragStart(e, t.name)}
+          <div
+            key={t.key}
+            onDragStart={(e) => this.onDragStart(e, t.key)}
             draggable
             className="draggable"
             style={{ backgroundColor: t.bgcolor }}
@@ -197,36 +239,39 @@ class Trello extends Component {
         tasks.todos.push(
           <div
             className="card2"
-            key={t.name}
-            onDragStart={(e) => this.onDragStart(e, t.name)}
+            key={t.key}
+            onDragStart={(e) => this.onDragStart(e, t.key)}
             draggable
             className="draggable"
             style={{ backgroundColor: t.bgcolor }}
           >
-            <Fab  style={{
-              backgroundColor: "#FFB500",
-              width: "45px",
-              height: "45px",
-              float: "right",
-              marginRight: 10,
-            }}
-             color="secondary" 
-             aria-label="delete">
+            <Fab
+              style={{
+                backgroundColor: "#FFB500",
+                width: "45px",
+                height: "45px",
+                float: "right",
+              }}
+              color="secondary"
+              aria-label="delete"
+            >
               <DeleteIcon onClick={() => this.handleDeleteTodos(t.key)} />
             </Fab>
+
+           
             <h4>{t.name}</h4>
           </div>
         );
-      } else if (t.category === "dones") {
+      } else if (t.category ==="dones") {
         tasks.dones.push(
-          <div 
-            key={t.name}
-            onDragStart={(e) => this.onDragStart(e, t.name)}
+          <div
+            key={t.key}
+            onDragStart={(e) => this.onDragStart(e, t.key)}
             draggable
             className="draggable"
             style={{ backgroundColor: t.bgcolor }}
           >
-          <h4>{t.name}</h4>
+            <h4>{t.name}</h4>
           </div>
         );
       } else {
@@ -236,10 +281,26 @@ class Trello extends Component {
 
     return (
       <div className="container-drag">
-
-      <div>
-      <h2  className="trelloPage-style" >Trello Page</h2>
-      </div>
+        <div>
+          <h2 className="trelloPage-style">
+            Trello Page
+            <h2
+              onClick={() => {
+                this.loadWithStart();
+              }}
+            >
+              Load
+            </h2>
+            <h2
+            onClick={() => {
+             window.location.reload();
+             //this.loadWithStart();
+            }}
+          >
+            refresh
+          </h2>
+          </h2>
+        </div>
 
         <div
           className="column"
@@ -247,23 +308,31 @@ class Trello extends Component {
           onDrop={(e) => this.onDrop(e, "todos")}
         >
           <span className="task-header">
-            <h4>Todos</h4>
-            <Fab
+            <h4
               style={{
-                backgroundColor: "#FFB500",
-                width: "45px",
-                height: "45px",
-                float: "right",
-                marginRight: 10,
+                textAlign: "center",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-              aria-label="add"
-              data-toggle="modal"
-              data-target="#exampleModal"
             >
-              {" "}
-              <AddIcon />
-
-            </Fab>
+              Todos
+              <Fab
+                style={{
+                  backgroundColor: "#FFB500",
+                  width: "45px",
+                  height: "45px",
+                  float: "right",
+                  top: 0,
+                  marginRight: 10,
+                }}
+                aria-label="add"
+                data-toggle="modal"
+                data-target="#exampleModal"
+              >
+                {" "}
+                <AddIcon />
+              </Fab>
+            </h4>
           </span>
 
           {tasks.todos}
@@ -276,7 +345,10 @@ class Trello extends Component {
             this.onDrop(e, "wip");
           }}
         >
-          <span className="task-header">  <h4>Wip</h4></span>
+          <span className="task-header">
+            {" "}
+            <h4>Wip</h4>
+          </span>
           {tasks.wip}
         </div>
 
@@ -285,7 +357,10 @@ class Trello extends Component {
           onDragOver={(e) => this.onDragOver(e)}
           onDrop={(e) => this.onDrop(e, "dones")}
         >
-          <span className="task-header">  <h4>Dones</h4> </span>
+          <span className="task-header">
+            {" "}
+            <h4>Dones</h4>{" "}
+          </span>
           {tasks.dones}
         </div>
 
@@ -327,21 +402,7 @@ class Trello extends Component {
                 />
               </div>
               <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-dismiss="modal"
-                  /* onClick={() => {
-          this.props.editTodos(
-            this.state.title,
-            this.state.itemKey,
-          );
-          this.setState({title: ''});
-          this.setState({Visible: false});
-        }} */
-                >
-                  Edit Board
-                </button>
+                
                 <button
                   type="button"
                   class="btn btn-primary"
@@ -355,7 +416,6 @@ class Trello extends Component {
                         function () {}
                       );
                     } else {
-                    
                       this.props.addTodos(
                         this.state.title,
                         this.state.boardKey,
@@ -363,7 +423,7 @@ class Trello extends Component {
                       );
                     }
                     this.setState({ title: "" });
-                  
+
                     console.log("girdi");
                   }}
                 >
@@ -420,4 +480,14 @@ export default connect(mapStateToProps, {
   getDones,
   addTodos,
   deleteTodos,
+  todosToInProgress,
+  InProgressToTodos,
+  InProgressToDone,
+  DoneToInProgress,
+  TodosToDone,
+  DoneToTodos,
+  addTasks,
 })(Trello);
+
+
+
