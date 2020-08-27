@@ -103,12 +103,9 @@ export default function Navi() {
       
         <List>
         <ListItem >
-              <ListItemIcon> <NoteIcon /></ListItemIcon>
-              <Link href="/SignUp"> Notes</Link>
+            <ListItemIcon> <NoteIcon /></ListItemIcon>
+             <a href="/">Home</a>
             </ListItem>
-
-           
-         
         </List>
       </div>
     );
