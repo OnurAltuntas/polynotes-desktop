@@ -4,6 +4,8 @@
 
 > This is work flow web-app like Trello
 
+> Drag and drop feature
+
 > Multiplatform app you can use android and desktop and web 
 
 > firebase realtime db, react.js, redux, material-ui, bootstrap
